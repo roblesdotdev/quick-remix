@@ -1,15 +1,7 @@
 export default function Index() {
   return (
-    <div
-      style={{
-        minHeight: '95vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        textAlign: 'center',
-      }}
-    >
-      <h1>Working</h1>
+    <div className="flex min-h-screen flex-col items-center justify-center text-center">
+      <h1 className="text-xl font-bold">Working</h1>
     </div>
   )
 }
