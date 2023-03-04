@@ -6,17 +6,18 @@ module.exports = {
     node: true,
   },
   extends: [
-    "eslint:recommended",
-    "@remix-run/eslint-config",
-    "@remix-run/eslint-config/node",
+    'eslint:recommended',
+    'plugin:prettier/recommended',
+    '@remix-run/eslint-config',
+    '@remix-run/eslint-config/node',
   ],
   parserOptions: {
     tsconfigRootDir: __dirname,
-    project: "./tsconfig.json",
+    project: './tsconfig.json',
   },
   rules: {
-    "no-console": "off",
+    'no-console': 'off',
 
     // Add custom rules here...
   },
-};
+}
