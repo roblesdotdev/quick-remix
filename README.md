@@ -4,7 +4,7 @@ Personal remix stack.
 
 ```sh
 # create a new project, and pick a pre-configured host
-npx create-remix@latest my-app --template roblesdotdev/quick-remix
+pnpx create-remix@latest my-app --template roblesdotdev/quick-remix
 cd my-app
 ```
 
@@ -13,7 +13,7 @@ cd my-app
 From your terminal:
 
 ```sh
-npm run dev
+pnpm dev
 ```
 
 This starts your app in development mode, rebuilding assets on file changes.
@@ -23,11 +23,11 @@ This starts your app in development mode, rebuilding assets on file changes.
 First, build your app for production:
 
 ```sh
-npm run build
+pnpm build
 ```
 
 Then run the app in production mode:
 
 ```sh
-npm start
+pnpm start
 ```
