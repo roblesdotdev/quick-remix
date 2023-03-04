@@ -3,9 +3,7 @@ Personal remix stack.
 ## Use this Template
 
 ```sh
-# create a new project, and pick a pre-configured host
-pnpx create-remix@latest my-app --template roblesdotdev/quick-remix
-cd my-app
+pnpx create-remix@latest --template roblesdotdev/quick-remix
 ```
 
 ## Development
