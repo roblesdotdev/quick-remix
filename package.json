@@ -11,19 +11,20 @@
     "prettier": "prettier --ignore-path .ignore \"**/*.+(js|jsx|css|ts|tsx)\"",
     "format": "npm run prettier -- --list-different",
     "format:write": "npm run prettier -- --write",
-    "validate": "run-s typecheck lint build"
+    "validate": "run-s typecheck lint build",
+    "setup": "npm run validate"
   },
   "dependencies": {
-    "@remix-run/node": "^1.14.0",
-    "@remix-run/react": "^1.14.0",
-    "@remix-run/serve": "^1.14.0",
+    "@remix-run/node": "*",
+    "@remix-run/react": "*",
+    "@remix-run/serve": "*",
     "isbot": "^3.6.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@remix-run/dev": "^1.14.0",
-    "@remix-run/eslint-config": "^1.14.0",
+    "@remix-run/dev": "*",
+    "@remix-run/eslint-config": "*",
     "@types/react": "^18.0.25",
     "@types/react-dom": "^18.0.8",
     "eslint": "^8.27.0",
