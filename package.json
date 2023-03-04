@@ -5,7 +5,8 @@
     "build": "remix build",
     "dev": "remix dev",
     "start": "remix-serve build",
-    "typecheck": "tsc"
+    "typecheck": "tsc",
+    "lint": "eslint --cache --cache-location ./node_modules/.cache/.eslintcache --ignore-path .ignore --ext js,jsx,ts,tsx ."
   },
   "dependencies": {
     "@remix-run/node": "^1.14.0",
