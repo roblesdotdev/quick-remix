@@ -2,6 +2,19 @@ import bcrypt from 'bcryptjs'
 import type { User } from '~/types'
 import { db } from './db.server'
 
+export async function getUserById(
+  userId: User['id'],
+): Promise<Pick<User, 'id' | 'username' | 'email'> | null> {
+  return db.user.findUnique({
+    where: { id: userId },
+    select: {
+      id: true,
+      username: true,
+      email: true,
+    },
+  })
+}
+
 export async function verifyCredentials({
   username,
   password,

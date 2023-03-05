@@ -1,4 +1,9 @@
-import type { LinksFunction, MetaFunction } from '@remix-run/node'
+import type {
+  LinksFunction,
+  LoaderFunction,
+  MetaFunction,
+} from '@remix-run/node'
+import { json } from '@remix-run/node'
 import {
   Links,
   LiveReload,
@@ -8,6 +13,8 @@ import {
   ScrollRestoration,
 } from '@remix-run/react'
 import tailwindStyles from '~/styles/tailwind.css'
+import { getUserById } from './utils/auth.server'
+import { getSessionUser, logout } from './utils/session.server'
 
 export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: tailwindStyles },
@@ -19,6 +26,25 @@ export const meta: MetaFunction = () => ({
   description: 'Remix Stack',
   viewport: 'width=device-width,initial-scale=1',
 })
+
+type UserResponse = Awaited<ReturnType<typeof getUserById>>
+
+export type RootLoaderData = {
+  user?: UserResponse | null
+}
+
+export const loader: LoaderFunction = async ({ request }) => {
+  const userId = await getSessionUser(request)
+  let user: UserResponse = null
+  if (userId) {
+    user = await getUserById(userId)
+    if (!user) {
+      await logout(request)
+    }
+  }
+
+  return json<RootLoaderData>({ user })
+}
 
 export default function App() {
   return (

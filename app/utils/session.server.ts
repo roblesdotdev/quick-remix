@@ -70,3 +70,12 @@ export async function getSessionUser(request: Request) {
 
   return session.get(sessionIdKey) as string | undefined
 }
+
+export async function logout(request: Request) {
+  const { session } = await getSession(request)
+  return redirect('/', {
+    headers: {
+      'Set-Cookie': await sessionStorage.destroySession(session),
+    },
+  })
+}

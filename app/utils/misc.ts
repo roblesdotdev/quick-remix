@@ -1,3 +1,8 @@
+import type { SerializeFrom } from '@remix-run/node'
+import { useRouteLoaderData } from '@remix-run/react'
+import type { RootLoaderData } from '~/root'
+import type { User } from '~/types'
+
 function getRequiredEnvVarFromObj(
   obj: Record<string, string | undefined>,
   key: string,
@@ -32,4 +37,16 @@ export function safeRedirect(
   }
 
   return to
+}
+
+function isUser(user: any): user is User {
+  return user && typeof user === 'object' && typeof user.id === 'string'
+}
+
+export function useOptionalUser(): User | undefined {
+  const data = useRouteLoaderData('root') as SerializeFrom<RootLoaderData>
+  if (!data || !isUser(data.user)) {
+    return undefined
+  }
+  return data.user
 }
