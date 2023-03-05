@@ -11,10 +11,12 @@ export async function sendEmail({
 }: {
   to: string
   subject: string
-  html: string
   text: string
+  html?: string
 }) {
   const auth = `${Buffer.from(`api:${MAILGUN_SENDING_KEY}`).toString('base64')}`
+
+  if (!html) html = text
 
   const body = new URLSearchParams({
     to,
