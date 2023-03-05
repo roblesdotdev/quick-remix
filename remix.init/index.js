@@ -62,6 +62,8 @@ async function main({ rootDirectory }) {
     ),
   ])
 
+  execSync(`git init`, { stdio: 'inherit', cwd: rootDirectory })
+
   execSync(`npm run setup`, { stdio: 'inherit', cwd: rootDirectory })
 
   console.log(
