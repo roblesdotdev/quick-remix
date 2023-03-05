@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "ISC",
   "dependencies": {
-    "sort-package-json": "^1.57.0"
+    "sort-package-json": "^1.57.0",
+    "ora": "^6.1.2"
   }
 }
