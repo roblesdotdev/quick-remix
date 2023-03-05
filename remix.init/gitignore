@@ -11,3 +11,5 @@ tsconfig.tsbuildinfo
 /prisma/*.db-journal
 /prisma/**/*.db
 /prisma/**/*.sqlite
+
+/mocks/fixtures/**/*.json
