@@ -78,6 +78,8 @@ async function main({ rootDirectory }) {
 
   await exec(`npm run setup`, { cwd: rootDirectory })
 
+  await exec(`git add . && git commit -m "initial commit"`, { stdio: 'ignore' })
+
   console.log(
     `Setup is complete. You're now ready to rock and roll 🤘
 Start development with \`pnpm dev\`
