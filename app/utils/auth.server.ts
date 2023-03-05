@@ -43,3 +43,23 @@ export async function verifyCredentials({
   const { password: _pwd, ...safeUser } = userWithPassword
   return safeUser
 }
+
+export async function createUser({
+  email,
+  username,
+  password,
+}: Pick<User, 'email' | 'username'> & { password: string }) {
+  const hashedPassword = await bcrypt.hash(password, 10)
+
+  return db.user.create({
+    data: {
+      email,
+      username,
+      password: {
+        create: {
+          hash: hashedPassword,
+        },
+      },
+    },
+  })
+}
