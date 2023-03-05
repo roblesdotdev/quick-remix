@@ -1,7 +1,9 @@
-import { createCookieSessionStorage } from '@remix-run/node'
-import { getRequiredServerEnvVar } from './misc'
+import { createCookieSessionStorage, redirect } from '@remix-run/node'
+import { getRequiredServerEnvVar, safeRedirect } from './misc'
+import type { User } from '~/types'
 
 const SESSION_SECRET = getRequiredServerEnvVar('SESSION_SECRET')
+const sessionIdKey = '__session_id__'
 
 export const sessionStorage = createCookieSessionStorage({
   cookie: {
@@ -39,4 +41,32 @@ export async function getSession(request: Request) {
       return headers
     },
   }
+}
+
+export async function createUserSession({
+  request,
+  userId,
+  remember,
+  redirectTo,
+}: {
+  request: Request
+  userId: User['id']
+  remember: boolean
+  redirectTo: string
+}) {
+  const { session } = await getSession(request)
+  session.set(sessionIdKey, userId)
+  return redirect(safeRedirect(redirectTo), {
+    headers: {
+      'Set-Cookie': await sessionStorage.commitSession(session, {
+        maxAge: remember ? 60 * 60 * 24 * 7 : undefined,
+      }),
+    },
+  })
+}
+
+export async function getSessionUser(request: Request) {
+  const { session } = await getSession(request)
+
+  return session.get(sessionIdKey) as string | undefined
 }
