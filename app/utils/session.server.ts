@@ -1,7 +1,9 @@
-import { createCookieSessionStorage } from '@remix-run/node'
-import { getRequiredServerEnvVar } from './misc'
+import { createCookieSessionStorage, redirect } from '@remix-run/node'
+import { getRequiredServerEnvVar, safeRedirect } from './misc'
+import type { User } from '~/types'
 
 const SESSION_SECRET = getRequiredServerEnvVar('SESSION_SECRET')
+const sessionIdKey = '__session_id__'
 
 export const sessionStorage = createCookieSessionStorage({
   cookie: {
@@ -17,6 +19,8 @@ export const sessionStorage = createCookieSessionStorage({
 export async function getSession(request: Request) {
   const session = await sessionStorage.getSession(request.headers.get('Cookie'))
   const initialValue = await sessionStorage.commitSession(session)
+  const getSessionId = () => session.get(sessionIdKey) as string | undefined
+  const unsetSessionId = () => session.unset(sessionIdKey)
 
   const commit = async () => {
     const currentValue = await sessionStorage.commitSession(session)
@@ -26,6 +30,12 @@ export async function getSession(request: Request) {
   return {
     session,
     commit,
+    signOut: async () => {
+      const sessionId = getSessionId()
+      if (sessionId) {
+        unsetSessionId()
+      }
+    },
     getHeaders: async (headers: ResponseInit['headers'] = new Headers()) => {
       const value = await commit()
       if (!value) return headers
@@ -39,4 +49,53 @@ export async function getSession(request: Request) {
       return headers
     },
   }
+}
+
+export async function createUserSession({
+  request,
+  userId,
+  remember,
+  redirectTo,
+}: {
+  request: Request
+  userId: User['id']
+  remember: boolean
+  redirectTo: string
+}) {
+  const { session } = await getSession(request)
+  session.set(sessionIdKey, userId)
+  return redirect(safeRedirect(redirectTo), {
+    headers: {
+      'Set-Cookie': await sessionStorage.commitSession(session, {
+        maxAge: remember ? 60 * 60 * 24 * 7 : undefined,
+      }),
+    },
+  })
+}
+
+export async function getSessionUser(request: Request) {
+  const { session } = await getSession(request)
+
+  return session.get(sessionIdKey) as string | undefined
+}
+
+export async function logout(request: Request) {
+  const { session } = await getSession(request)
+  return redirect('/', {
+    headers: {
+      'Set-Cookie': await sessionStorage.destroySession(session),
+    },
+  })
+}
+
+export async function requireSessionUser(
+  request: Request,
+): Promise<User['id']> {
+  const user = await getSessionUser(request)
+  if (!user) {
+    const { getHeaders, signOut } = await getSession(request)
+    await signOut()
+    throw redirect('/login', { headers: await getHeaders() })
+  }
+  return user
 }
