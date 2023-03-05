@@ -78,15 +78,15 @@ async function main({ rootDirectory }) {
   ])
   spinner.succeed('Replace names')
 
-  spinner = ora('🏃‍♀️ Initializing git repository')
+  spinner = ora('🏃‍♀️ Initializing git repository').start()
   await exec(`git init`, { cwd: rootDirectory })
   spinner.succeed('✅ Git initialized')
 
-  spinner = ora('🏃‍♀️ Running setup')
+  spinner = ora('🏃‍♀️ Running setup').start()
   await exec(`npm run setup`, { cwd: rootDirectory })
   spinner.succeed('✅ Setup complete')
 
-  spinner = ora('🏃‍♀️ Validating code')
+  spinner = ora('🏃‍♀️ Validating code').start()
   await exec(`git add . && git commit -m "initial commit"`, {
     stdio: 'ignore',
     cwd: rootDirectory,
