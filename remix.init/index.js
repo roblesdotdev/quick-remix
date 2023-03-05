@@ -66,7 +66,7 @@ async function main({ rootDirectory }) {
 
   const { default: ora } = await import('ora')
 
-  let spinner = ora('Replacing names').start()
+  let spinner = ora('🏃‍ Replacing names').start()
   await Promise.all([
     fs.writeFile(README_PATH, newReadme),
     fs.writeFile(ENV_PATH, newEnv),
@@ -80,18 +80,18 @@ async function main({ rootDirectory }) {
 
   spinner = ora('🏃‍♀️ Initializing git repository').start()
   await exec(`git init`, { cwd: rootDirectory })
-  spinner.succeed('✅ Git initialized')
+  spinner.succeed('Git initialized')
 
   spinner = ora('🏃‍♀️ Running setup').start()
   await exec(`npm run setup`, { cwd: rootDirectory })
-  spinner.succeed('✅ Setup complete')
+  spinner.succeed('Setup complete')
 
   spinner = ora('🏃‍♀️ Validating code').start()
   await exec(`git add . && git commit -m "initial commit"`, {
     stdio: 'ignore',
     cwd: rootDirectory,
   })
-  spinner.succeed('✅ Code validated')
+  spinner.succeed('Code validated')
 
   console.log(
     `Setup is complete. You're now ready to rock and roll 🤘
