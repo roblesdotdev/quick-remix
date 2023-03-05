@@ -11,8 +11,11 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useCatch,
 } from '@remix-run/react'
+import type { ReactNode } from 'react'
 import tailwindStyles from '~/styles/tailwind.css'
+import { NotFound, ServerError } from './components/errors'
 import { getUserById } from './utils/auth.server'
 import { getSession, getSessionUser } from './utils/session.server'
 
@@ -47,19 +50,56 @@ export const loader: LoaderFunction = async ({ request }) => {
   return json<RootLoaderData>({ user })
 }
 
-export default function App() {
+function Document({
+  title,
+  children,
+}: {
+  title?: string
+  children: ReactNode
+}) {
   return (
     <html lang="en">
       <head>
+        {title ? <title>{title}</title> : null}
         <Meta />
         <Links />
       </head>
-      <body className="bg-slate-50 text-slate-800 antialiased">
-        <Outlet />
+      <body className="min-h-screen w-full overflow-x-hidden antialiased">
+        <div className=" bg-slate-50 text-slate-800">
+          <main className="min-h-screen">{children}</main>
+        </div>
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
       </body>
     </html>
+  )
+}
+
+export default function App() {
+  return (
+    <Document>
+      <Outlet />
+    </Document>
+  )
+}
+
+export function CatchBoundary() {
+  const caught = useCatch()
+  if (caught.status === 404) {
+    return (
+      <Document title="Oh No! Not Found">
+        <NotFound />
+      </Document>
+    )
+  }
+  throw new Error(`Unhandled error: ${caught.status}`)
+}
+
+export function ErrorBoundary({ error }: { error: Error }) {
+  return (
+    <Document title="Uh-oh!">
+      <ServerError error={error} />
+    </Document>
   )
 }
