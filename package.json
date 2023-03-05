@@ -5,7 +5,7 @@
     "build": "remix build",
     "dev": "remix dev",
     "start": "remix-serve build",
-    "prepare": "husky install",
+    "prepare": "husky install || true",
     "typecheck": "tsc -b",
     "lint": "eslint --cache --cache-location ./node_modules/.cache/.eslintcache --ignore-path .ignore --ext js,jsx,ts,tsx .",
     "prettier": "prettier --ignore-path .ignore \"**/*.+(js|jsx|css|ts|tsx)\"",
