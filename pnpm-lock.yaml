@@ -1,11 +1,11 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@remix-run/dev': ^1.14.0
-  '@remix-run/eslint-config': ^1.14.0
-  '@remix-run/node': ^1.14.0
-  '@remix-run/react': ^1.14.0
-  '@remix-run/serve': ^1.14.0
+  '@remix-run/dev': '*'
+  '@remix-run/eslint-config': '*'
+  '@remix-run/node': '*'
+  '@remix-run/react': '*'
+  '@remix-run/serve': '*'
   '@types/react': ^18.0.25
   '@types/react-dom': ^18.0.8
   eslint: ^8.27.0

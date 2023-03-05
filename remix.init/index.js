@@ -1,4 +1,4 @@
-const { execSync } = require('child_process')
+const { spawn } = require('child_process')
 const crypto = require('crypto')
 const fs = require('fs/promises')
 const path = require('path')
@@ -14,6 +14,18 @@ function getRandomString(length) {
   return crypto.randomBytes(length).toString('hex')
 }
 
+async function exec(command, { cwd, stdio = 'inherit' } = {}) {
+  const child = spawn(command, { shell: true, stdio, cwd })
+  await new Promise((res, rej) => {
+    child.on('exit', code => {
+      if (code === 0) {
+        res(code)
+      } else {
+        rej(code)
+      }
+    })
+  })
+}
 async function main({ rootDirectory }) {
   const INIT_README_PATH = path.join(rootDirectory, 'remix.init', 'README.md')
   const README_PATH = path.join(rootDirectory, 'README.md')
@@ -62,14 +74,9 @@ async function main({ rootDirectory }) {
     ),
   ])
 
-  execSync(`git init`, { stdio: 'inherit', cwd: rootDirectory })
+  await exec(`git init`, { cwd: rootDirectory })
 
-  execSync(`npm run setup`, { stdio: 'inherit', cwd: rootDirectory })
-
-  execSync(`git add . && git commit -m "initial commit"`, {
-    stdio: 'inherit',
-    cwd: rootDirectory,
-  })
+  await exec(`npm run setup`, { cwd: rootDirectory })
 
   console.log(
     `Setup is complete. You're now ready to rock and roll 🤘
