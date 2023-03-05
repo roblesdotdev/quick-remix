@@ -78,7 +78,10 @@ async function main({ rootDirectory }) {
 
   await exec(`npm run setup`, { cwd: rootDirectory })
 
-  await exec(`git add . && git commit -m "initial commit"`, { stdio: 'ignore' })
+  await exec(`git add . && git commit -m "initial commit"`, {
+    stdio: 'ignore',
+    cwd: rootDirectory,
+  })
 
   console.log(
     `Setup is complete. You're now ready to rock and roll 🤘
