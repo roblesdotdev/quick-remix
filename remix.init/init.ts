@@ -5,6 +5,8 @@ import path from 'path'
 
 import sort from 'sort-package-json'
 
+const here = (...s: Array<string>) => path.join(__dirname, ...s)
+
 function escapeRegExp(string: string) {
   // $& means the whole matched string
   return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
@@ -32,7 +34,8 @@ async function exec(
     })
   })
 }
-async function main({ rootDirectory }: { rootDirectory: string }) {
+export default async function init() {
+  const rootDirectory = here('..')
   const INIT_README_PATH = path.join(rootDirectory, 'remix.init', 'README.md')
   const README_PATH = path.join(rootDirectory, 'README.md')
   const EXAMPLE_ENV_PATH = path.join(rootDirectory, '.env.sample')
@@ -106,4 +109,4 @@ Start development with \`pnpm dev\`
   )
 }
 
-module.exports = main
+init()
