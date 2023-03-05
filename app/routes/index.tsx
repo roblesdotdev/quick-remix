@@ -11,11 +11,20 @@ export default function Index() {
       </h1>
       <div>
         {user ? (
-          <Form method="post" action="/logout">
-            <button type="submit">Logout</button>
-          </Form>
+          <div className="flex flex-col gap-2">
+            <Form method="post" action="/logout">
+              <button type="submit" className="text-red-600 underline">
+                Logout
+              </button>
+            </Form>
+            <Link to="/protected" className="text-blue-600 underline">
+              Protected Route
+            </Link>
+          </div>
         ) : (
-          <Link to="/login">Login</Link>
+          <Link to="/login" className="text-blue-600 underline">
+            Login
+          </Link>
         )}
       </div>
     </div>

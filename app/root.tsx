@@ -14,7 +14,7 @@ import {
 } from '@remix-run/react'
 import tailwindStyles from '~/styles/tailwind.css'
 import { getUserById } from './utils/auth.server'
-import { getSessionUser, logout } from './utils/session.server'
+import { getSession, getSessionUser } from './utils/session.server'
 
 export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: tailwindStyles },
@@ -35,11 +35,12 @@ export type RootLoaderData = {
 
 export const loader: LoaderFunction = async ({ request }) => {
   const userId = await getSessionUser(request)
+  const { signOut } = await getSession(request)
   let user: UserResponse = null
   if (userId) {
     user = await getUserById(userId)
     if (!user) {
-      await logout(request)
+      await signOut()
     }
   }
 

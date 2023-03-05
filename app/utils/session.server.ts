@@ -19,6 +19,8 @@ export const sessionStorage = createCookieSessionStorage({
 export async function getSession(request: Request) {
   const session = await sessionStorage.getSession(request.headers.get('Cookie'))
   const initialValue = await sessionStorage.commitSession(session)
+  const getSessionId = () => session.get(sessionIdKey) as string | undefined
+  const unsetSessionId = () => session.unset(sessionIdKey)
 
   const commit = async () => {
     const currentValue = await sessionStorage.commitSession(session)
@@ -28,6 +30,12 @@ export async function getSession(request: Request) {
   return {
     session,
     commit,
+    signOut: async () => {
+      const sessionId = getSessionId()
+      if (sessionId) {
+        unsetSessionId()
+      }
+    },
     getHeaders: async (headers: ResponseInit['headers'] = new Headers()) => {
       const value = await commit()
       if (!value) return headers
@@ -78,4 +86,16 @@ export async function logout(request: Request) {
       'Set-Cookie': await sessionStorage.destroySession(session),
     },
   })
+}
+
+export async function requireSessionUser(
+  request: Request,
+): Promise<User['id']> {
+  const user = await getSessionUser(request)
+  if (!user) {
+    const { getHeaders, signOut } = await getSession(request)
+    await signOut()
+    throw redirect('/login', { headers: await getHeaders() })
+  }
+  return user
 }
