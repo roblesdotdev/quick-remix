@@ -2,10 +2,10 @@ import type { LoaderFunction } from '@remix-run/node'
 import { json } from '@remix-run/node'
 import { Form } from '@remix-run/react'
 import { useUser } from '~/utils/misc'
-import { requireSessionUser } from '~/utils/session.server'
+import { requireAuthUser } from '~/utils/session.server'
 
 export const loader: LoaderFunction = async ({ request }) => {
-  await requireSessionUser(request)
+  await requireAuthUser(request)
 
   return json({})
 }
