@@ -13,7 +13,9 @@
     "format:write": "pnpm prettier --write",
     "start": "remix-serve ./build/server/index.js",
     "preview": "pnpm build && pnpm start",
-    "typecheck": "tsc"
+    "typecheck": "tsc",
+    "prepare": "husky",
+    "validate": "run-p typecheck lint format"
   },
   "dependencies": {
     "@remix-run/node": "^2.10.2",
@@ -35,6 +37,8 @@
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "globals": "^15.8.0",
+    "husky": "^9.0.11",
+    "npm-run-all": "^4.1.5",
     "postcss": "^8.4.38",
     "prettier": "^3.3.2",
     "prettier-plugin-tailwindcss": "^0.6.5",
