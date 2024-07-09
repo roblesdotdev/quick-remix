@@ -1,11 +1,33 @@
+import { Link, type MetaFunction, useLocation } from '@remix-run/react'
+import { GeneralErrorBoundary } from '~/components/error-boundary'
+
+export const meta: MetaFunction = ({ location }) => {
+  return [{ title: `Not found ${location.pathname}` }]
+}
+
 export async function loader() {
   throw new Response('Not found', { status: 404 })
 }
 
-export function ErrorBoundary() {
+function NotFound() {
+  const location = useLocation()
   return (
     <div>
-      <h1>Not found page</h1>
+      <div>
+        <h1>Can't find this page:</h1>
+        <pre>{location.pathname}</pre>
+      </div>
+      <Link to="/">Back to home</Link>
     </div>
+  )
+}
+
+export function ErrorBoundary() {
+  return (
+    <GeneralErrorBoundary
+      statusHandlers={{
+        404: () => <NotFound />,
+      }}
+    />
   )
 }
