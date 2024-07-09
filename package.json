@@ -12,6 +12,7 @@
     "format": "pnpm prettier --list-different",
     "format:write": "pnpm prettier --write",
     "start": "remix-serve ./build/server/index.js",
+    "preview": "pnpm build && pnpm start",
     "typecheck": "tsc"
   },
   "dependencies": {
@@ -45,5 +46,6 @@
   },
   "engines": {
     "node": ">=20.0.0"
-  }
+  },
+  "packageManager": "pnpm@9.5.0"
 }
