@@ -1,4 +1,8 @@
 {
   "eslint.experimental.useFlatConfig": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode"
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "files.associations": {
+    "*.xml": "html",
+    "*.svg": "html"
+  }
 }
