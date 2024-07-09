@@ -8,6 +8,9 @@
     "dev": "remix vite:dev",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
+    "prettier": "prettier \"**/*.+(js|jsx|css|ts|tsx|cjs|mjs)\"",
+    "format": "pnpm prettier --list-different",
+    "format:write": "pnpm prettier --write",
     "start": "remix-serve ./build/server/index.js",
     "typecheck": "tsc"
   },
@@ -32,6 +35,8 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "globals": "^15.8.0",
     "postcss": "^8.4.38",
+    "prettier": "^3.3.2",
+    "prettier-plugin-tailwindcss": "^0.6.5",
     "tailwindcss": "^3.4.4",
     "typescript": "^5.1.6",
     "typescript-eslint": "^7.16.0",
