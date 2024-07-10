@@ -7,7 +7,7 @@ import {
   clientHint as colorSchemeHint,
   subscribeToSchemeChange,
 } from '@epic-web/client-hints/color-scheme'
-import { useLocation, useRevalidator } from '@remix-run/react'
+import { useRevalidator } from '@remix-run/react'
 import * as React from 'react'
 import { useRequestInfo } from './request-info'
 
@@ -45,9 +45,4 @@ export function ClientHintCheck({ nonce }: { nonce: string }) {
       }}
     />
   )
-}
-
-export function useCurrentPath() {
-  const location = useLocation()
-  return location.pathname + location.search
 }

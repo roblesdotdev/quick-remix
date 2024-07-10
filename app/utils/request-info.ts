@@ -1,4 +1,4 @@
-import { useRouteLoaderData } from '@remix-run/react'
+import { useLocation, useRouteLoaderData } from '@remix-run/react'
 import { invariant } from './misc'
 import { type loader as rootLoader } from '~/root'
 
@@ -10,4 +10,9 @@ export function useRequestInfo() {
   invariant(data?.requestInfo, 'No requestInfo found in root loader')
 
   return data.requestInfo
+}
+
+export function useCurrentPath() {
+  const location = useLocation()
+  return location.pathname + location.search
 }

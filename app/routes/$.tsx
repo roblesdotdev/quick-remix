@@ -9,6 +9,10 @@ export async function loader() {
   throw new Response('Not found', { status: 404 })
 }
 
+export default function NotFoundRoute() {
+  return <ErrorBoundary />
+}
+
 function NotFound() {
   const location = useLocation()
   return (

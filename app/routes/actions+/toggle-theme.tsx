@@ -3,10 +3,10 @@ import { parseWithZod } from '@conform-to/zod'
 import { type ActionFunctionArgs } from '@remix-run/node'
 import { json, useFetcher, useFetchers } from '@remix-run/react'
 import { z } from 'zod'
-import { useCurrentPath, useHints } from '~/utils/client-hints'
+import { useHints } from '~/utils/client-hints'
 import { safeRedirect } from '~/utils/http.server'
 import { invariantResponse } from '~/utils/misc'
-import { useRequestInfo } from '~/utils/request-info'
+import { useCurrentPath, useRequestInfo } from '~/utils/request-info'
 import { type Theme, serializeTheme } from '~/utils/theme.server'
 
 const ThemeFormSchema = z.object({
