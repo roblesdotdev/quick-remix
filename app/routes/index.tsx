@@ -14,7 +14,7 @@ export const meta: MetaFunction = () => {
 
 export default function Index() {
   return (
-    <div className="p-4 font-sans">
+    <div className="container mx-auto py-12 font-sans">
       <h1 className="text-3xl">Quick Remix</h1>
     </div>
   )

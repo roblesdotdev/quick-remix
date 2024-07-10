@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :root {
+    --canvas: 0 0% 100%;
+    --fg-default: 0 0% 0%;
+  }
+
+  :root.dark {
+    --canvas: 240 6% 7%;
+    --fg-default: 0 0% 100%;
+  }
+
+  body {
+    @apply min-h-[100dvh] overflow-x-hidden bg-canvas text-fg antialiased;
+  }
+}
