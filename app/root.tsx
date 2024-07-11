@@ -13,11 +13,13 @@ import '~/styles/global.css'
 import { GeneralErrorBoundary } from './components/error-boundary'
 import { ToggleTheme, useTheme } from './routes/actions+/toggle-theme'
 import { ClientHintCheck, getHints } from './utils/client-hints'
+import { getPublicEnv } from './utils/env.server'
 import { useNonce } from './utils/nonce-provider'
 import { type Theme, parseTheme } from './utils/theme.server'
 
 export async function loader({ request }: LoaderFunctionArgs) {
   return json({
+    ENV: getPublicEnv(),
     requestInfo: {
       hints: getHints(request),
       userPrefs: {
@@ -31,10 +33,12 @@ export function Document({
   children,
   theme = 'dark',
   nonce,
+  env = {},
 }: {
   children: React.ReactNode
   nonce: string
   theme?: Theme
+  env?: Record<string, string>
 }) {
   return (
     <html lang="en" className={`${theme}`}>
@@ -48,6 +52,12 @@ export function Document({
       </head>
       <body>
         {children}
+        <script
+          nonce={nonce}
+          dangerouslySetInnerHTML={{
+            __html: `window.ENV = ${JSON.stringify(env)}`,
+          }}
+        />
         <ScrollRestoration />
         <Scripts />
       </body>
@@ -61,7 +71,7 @@ export default function App() {
   const nonce = useNonce()
 
   return (
-    <Document theme={theme} nonce={nonce}>
+    <Document theme={theme} nonce={nonce} env={data.ENV}>
       <header className="h-14 px-4">
         <div className="container mx-auto flex h-full items-center justify-between">
           <Link to="/">Quick Remix</Link>
