@@ -16,6 +16,7 @@ import { ClientHintCheck, getHints } from './utils/client-hints'
 import { getPublicEnv } from './utils/env.server'
 import { useNonce } from './utils/nonce-provider'
 import { type Theme, parseTheme } from './utils/theme.server'
+import { href as iconsHref } from '~/components/ui/icon'
 
 export async function loader({ request }: LoaderFunctionArgs) {
   return json({
@@ -80,6 +81,7 @@ export default function App() {
       </header>
       <div className="px-4">
         <Outlet />
+        <img src={iconsHref} alt="" hidden fetchPriority="high" />
         <div className="h-[100vh]" />
       </div>
     </Document>

@@ -8,6 +8,12 @@ const MODE = process.env.NODE_ENV
 export default defineConfig({
   build: {
     cssMinify: MODE === 'production',
+    sourcemap: true,
+    assetsInlineLimit: (source: string) => {
+      if (source.endsWith('sprite.svg')) {
+        return false
+      }
+    },
   },
   plugins: [
     remix({
@@ -17,6 +23,7 @@ export default defineConfig({
         v3_throwAbortReason: true,
       },
       ignoredRouteFiles: ['**/*'],
+      serverModuleFormat: 'esm',
       routes: async defineRoutes => {
         return flatRoutes('routes', defineRoutes, {
           ignoredRouteFiles: [
