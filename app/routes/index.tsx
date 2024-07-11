@@ -1,10 +1,5 @@
-import { type LinksFunction, type MetaFunction } from '@remix-run/node'
-import icon from '~/assets/favicon.svg'
+import { type MetaFunction } from '@remix-run/node'
 import { Icon } from '~/components/ui/icon'
-
-export const links: LinksFunction = () => [
-  { rel: 'icon', type: 'image+svg', href: icon },
-]
 
 export const meta: MetaFunction = () => {
   return [

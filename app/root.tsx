@@ -1,4 +1,4 @@
-import { type LoaderFunctionArgs } from '@remix-run/node'
+import { type LinksFunction, type LoaderFunctionArgs } from '@remix-run/node'
 import {
   Link,
   Links,
@@ -16,7 +16,12 @@ import { ClientHintCheck, getHints } from './utils/client-hints'
 import { getPublicEnv } from './utils/env.server'
 import { useNonce } from './utils/nonce-provider'
 import { type Theme, parseTheme } from './utils/theme.server'
+import icon from '~/assets/favicon.svg'
 import { href as iconsHref } from '~/components/ui/icon'
+
+export const links: LinksFunction = () => [
+  { rel: 'icon', type: 'image+svg', href: icon },
+]
 
 export async function loader({ request }: LoaderFunctionArgs) {
   return json({
