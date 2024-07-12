@@ -11,11 +11,15 @@ import {
 } from '@remix-run/react'
 import '~/styles/global.css'
 import { GeneralErrorBoundary } from './components/error-boundary'
+import { useToast } from './components/toaster'
+import { AppToaster } from './components/ui/sonner'
 import { ToggleTheme, useTheme } from './routes/actions+/toggle-theme'
 import { ClientHintCheck, getHints } from './utils/client-hints'
 import { getPublicEnv } from './utils/env.server'
+import { combineHeaders } from './utils/misc'
 import { useNonce } from './utils/nonce-provider'
 import { type Theme, parseTheme } from './utils/theme.server'
+import { getToast } from './utils/toast.server'
 import icon from '~/assets/favicon.svg'
 import { href as iconsHref } from '~/components/ui/icon'
 
@@ -24,15 +28,22 @@ export const links: LinksFunction = () => [
 ]
 
 export async function loader({ request }: LoaderFunctionArgs) {
-  return json({
-    ENV: getPublicEnv(),
-    requestInfo: {
-      hints: getHints(request),
-      userPrefs: {
-        theme: parseTheme(request),
+  const { toast, headers: toastHeaders } = await getToast(request)
+  return json(
+    {
+      ENV: getPublicEnv(),
+      toast,
+      requestInfo: {
+        hints: getHints(request),
+        userPrefs: {
+          theme: parseTheme(request),
+        },
       },
     },
-  })
+    {
+      headers: combineHeaders(toastHeaders),
+    },
+  )
 }
 
 export function Document({
@@ -75,6 +86,7 @@ export default function App() {
   const data = useLoaderData<typeof loader>()
   const theme = useTheme()
   const nonce = useNonce()
+  useToast(data.toast)
 
   return (
     <Document theme={theme} nonce={nonce} env={data.ENV}>
@@ -86,9 +98,17 @@ export default function App() {
       </header>
       <div className="px-4">
         <Outlet />
-        <img src={iconsHref} alt="" hidden fetchPriority="high" />
+        <img
+          src={iconsHref}
+          alt=""
+          hidden
+          // @ts-expect-error -- silly React pretending this attribute doesn't exist
+          // eslint-disable-next-line
+          fetchpriority="high"
+        />
         <div className="h-[100vh]" />
       </div>
+      <AppToaster theme={theme} position="bottom-right" closeButton />
     </Document>
   )
 }

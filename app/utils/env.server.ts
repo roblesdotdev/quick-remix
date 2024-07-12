@@ -2,6 +2,7 @@ import { z } from 'zod'
 
 export const envSchema = z.object({
   NODE_ENV: z.enum(['production', 'development', 'test'] as const),
+  SESSION_SECRET: z.string().min(1),
 })
 
 declare global {

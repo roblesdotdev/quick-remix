@@ -9,6 +9,7 @@ export default {
         canvas: 'hsl(var(--canvas))',
         fg: {
           DEFAULT: 'hsl(var(--fg-default))',
+          muted: 'hsl(var(--fg-muted))',
         },
       },
     },
