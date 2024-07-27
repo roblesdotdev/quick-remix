@@ -4,8 +4,8 @@
 
 @layer base {
   :root {
-    --canvas: 0 0% 100%;
-    --fg-default: 0 0% 0%;
+    --canvas: 40 100% 98%;
+    --fg-default: 0 0% 7%;
     --fg-muted: 220 6% 40%;
   }
 
